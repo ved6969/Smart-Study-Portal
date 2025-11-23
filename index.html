@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Study Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body id="body" class="bg-gray-100 text-gray-800 transition-all duration-500">
+
+  <!-- 🧭 Navigation Header -->
+<header class="bg-blue-600 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Left: Website Title -->
+    <h1 id="homeTitle" class="text-xl font-bold cursor-pointer hover:underline">📘 Smart Study Portal</h1>
+
+    <!-- Middle: Navigation Links -->
+    <nav class="hidden md:flex space-x-6 text-sm font-medium">
+      <a href="#" class="hover:text-yellow-300 transition">Home</a>
+      <a href="#about" class="hover:text-yellow-300 transition">About</a>
+      <a href="#services" class="hover:text-yellow-300 transition">Services</a>
+      <a href="#contact" class="hover:text-yellow-300 transition">Contact</a>
+    </nav>
+
+    <!-- Right: Theme Toggle -->
+    <button id="themeToggle" class="bg-white text-blue-600 px-3 py-1 rounded-md">🌙 Dark Mode</button>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuBtn" class="md:hidden text-2xl focus:outline-none">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden flex-col bg-blue-700 text-white space-y-2 px-4 py-3">
+    <a href="#" class="block hover:text-yellow-300">Home</a>
+    <a href="#about" class="block hover:text-yellow-300">About</a>
+    <a href="#services" class="block hover:text-yellow-300">Services</a>
+    <a href="#contact" class="block hover:text-yellow-300">Contact</a>
+  </div>
+</header>
+
+
+  <!-- Controls -->
+  <div class="flex justify-center mt-6 mb-4 gap-4 flex-wrap">
+    <input id="searchBox" type="text" placeholder="Search assignment..."
+      class="border border-gray-300 rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <select id="subjectFilter"
+      class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <option value="all">All Subjects</option>
+    </select>
+  </div>
+
+
+  <!-- Back Button -->
+  <button id="backButton"
+    class="hidden fixed top-20 left-5 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition z-30">
+    ← Back
+  </button>
+
+  <!-- ================= Landing Page ================= -->
+  <section id="landing" class="h-screen flex flex-col justify-center items-center bg-cover bg-center text-white"
+    style="background-image: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1400&q=60');">
+    <div class="bg-black bg-opacity-50 p-10 rounded-2xl text-center">
+      <h1 class="text-5xl font-bold mb-4">Welcome to Smart Study Portal</h1>
+      <p class="text-lg mb-6">Access all your college assignments easily — anywhere, anytime!</p>
+      <button onclick="goToCollege()" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-lg transition">Get
+        Started 🚀</button>
+    </div>
+  </section>
+
+  <!-- ================= College Selection ================= -->
+  <section id="collegeSection" class="px-6 py-10 text-center">
+    <h2 class="text-2xl font-semibold text-blue-700 mb-8">Select Your College</h2>
+    <div id="collegeButtons" class="flex flex-wrap justify-center gap-6"></div>
+  </section>
+
+
+
+  <!-- ================= Semester Selection ================= -->
+  <section id="semesterSection" class="hidden text-center py-28">
+    <h2 class="text-3xl font-semibold mb-8 text-blue-600">Select Your Semester</h2>
+    <div id="semesterButtons" class="flex justify-center gap-6 flex-wrap"></div>
+  </section>
+
+  <!-- Category Selection -->
+  <section id="categorySection" class="hidden px-6 py-10 text-center">
+    <h2 class="text-2xl font-semibold text-blue-700 mb-8">Select Resource Type</h2>
+    <div id="categoryButtons" class="flex flex-wrap justify-center gap-6"></div>
+  </section>
+
+
+  <section id="subjectSection" class="hidden px-6 py-10 text-center">
+    <h2 class="text-2xl font-semibold text-blue-700 mb-8">Select Subject</h2>
+    <div id="subjectButtons" class="flex flex-wrap justify-center gap-6"></div>
+  </section>
+
+
+  <!-- ================= Assignment Section ================= -->
+  <section id="assignmentSection" class="hidden px-6 py-10">
+    
+
+<!-- ====================== MY FAVORITES SECTION ====================== -->
+<section id="favoriteSection" class="min-h-screen hidden flex-col px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold">⭐ My Favorites</h2>
+    <button onclick="backToAssignments()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+      ← Back to Assignments
+    </button>
+  </div>
+  <div id="favoriteContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+</section>
+
+
+
+
+    <div id="assignmentHeader" class="text-center mb-8">
+
+      <!-- ⭐ Favorites Button and Assignment Label -->
+       
+     <div class="flex justify-between items-center mb-6">
+  <h2 id="assignmentLabel" class="text-2xl font-semibold text-blue-700 mb-6"></h2>
+  <button onclick="showFavorites()" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 flex items-center gap-2">
+    ⭐ My Favorites (<span id="favoriteCount">0</span>)
+  </button>
+</div>
+
+
+      <!-- 🎯 Filter Bar -->
+      <div class="flex justify-center flex-wrap gap-3 mb-6">
+        <!-- Subject Filter -->
+        <select id="subjectFilter"
+          class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:text-gray-100">
+          <option value="all">All Subjects</option>
+        </select>
+
+        <!-- Search Box -->
+        <input id="searchBox" type="text" placeholder="🔍 Search assignment..."
+          class="border border-gray-300 rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:text-gray-100">
+      </div>
+    </div>
+
+    <main id="container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></main>
+  </section>
+
+  <!-- 📘 About Section -->
+<section id="about" class="max-w-5xl mx-auto p-8 text-center">
+  <h2 class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">About Us</h2>
+  <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+    Welcome to Jaikishan’s Assignment Portal — your one-stop solution for college assignment sharing. 
+    We aim to simplify academic resource sharing among students in a clean, fast, and organized interface.
+  </p>
+</section>
+
+<!-- ⚙️ Services Section -->
+<section id="services" class="bg-gray-50 dark:bg-gray-900 py-10">
+  <div class="max-w-5xl mx-auto text-center">
+    <h2 class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">Our Services</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-blue-500 mb-2">Assignment Library</h3>
+        <p class="text-gray-600 dark:text-gray-300">Access organized assignment solutions for all subjects and semesters.</p>
+      </div>
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-blue-500 mb-2">Reports & Posters</h3>
+        <p class="text-gray-600 dark:text-gray-300">View and download academic reports, posters, and project summaries.</p>
+      </div>
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-blue-500 mb-2">Previous Year Papers</h3>
+        <p class="text-gray-600 dark:text-gray-300">Prepare better with past papers and important question collections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 📞 Contact Section -->
+<section id="contact" class="max-w-5xl mx-auto p-8 text-center">
+  <h2 class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">Contact Us</h2>
+  <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+    Need help finding a specific assignment, report, or project?  
+    You can either send me a message directly via email or reach out instantly on WhatsApp.
+  </p>
+
+  <!-- 💌 Email Contact Form (Formspree) -->
+  <form action="https://formspree.io/f/xvgdpbwq" method="POST" 
+        class="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md space-y-4">
+    <input type="text" name="name" placeholder="Your Name" required
+           class="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+    <input type="email" name="email" placeholder="Your Email" required
+           class="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+    <textarea name="message" placeholder="Describe what you need (e.g., DSA Lab 4 report or Python project)" required
+              class="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" rows="4"></textarea>
+
+    <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition w-full">
+      📤 Send Email Request
+    </button>
+  </form>
+
+  <!-- 💬 WhatsApp Option -->
+  <div class="mt-8">
+    <p class="text-gray-700 dark:text-gray-300 mb-3">Prefer a quick chat?</p>
+    <a href="https://wa.me/919881900876?text=Hi%20Jaikishan!%20I%20need%20help%20with%20an%20assignment%20🙂"
+       target="_blank"
+       class="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow-md transition transform hover:scale-105">
+      💬 Chat on WhatsApp
+    </a>
+  </div>
+</section>
+
+
+
+  <!-- ================= Footer ================= -->
+  <footer class="bg-blue-600 text-white text-center py-4 mt-10">
+    © 2025 Smart Study Portal
+  </footer>
+
+  <!-- ================= PDF Modal ================= -->
+  <div id="pdfModal"
+    class="fixed inset-0 bg-black bg-opacity-70 hidden justify-center items-center z-50 transition duration-300">
+    <div
+      class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 h-4/5 flex flex-col overflow-hidden">
+      <div class="flex justify-between items-center p-4 border-b border-gray-300 dark:border-gray-700">
+        <h2 id="pdfTitle" class="text-lg font-semibold text-blue-600 dark:text-blue-300">PDF Preview</h2>
+        <button id="closeModal" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+      </div>
+      <iframe id="pdfViewer" src="" class="flex-grow w-full border-none"></iframe>
+      <div class="p-4 border-t border-gray-300 dark:border-gray-700 text-center">
+        <a id="downloadLink" href="#" download>
+          <button class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">⬇ Download</button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assignments_data.js"></script>
+  <script src="script.js"></script>
+
+
+<!-- CHATBOT - WITH VOICE INPUT -->
+<script>
+// Store conversation history
+let conversationHistory = [];
+let chatOpen = false;
+
+// Create and inject chatbot HTML
+const chatbotHTML = `
+<button id="chatBtn" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; width: 56px; height: 56px; border-radius: 50%; background: #2563eb; color: white; border: none; cursor: pointer; font-size: 24px;">💬</button>
+
+<div id="chatBox" style="position: fixed; bottom: 100px; right: 24px; width: 380px; height: 480px; background: white; border-radius: 12px; box-shadow: 0 5px 40px rgba(0,0,0,0.3); z-index: 9999; display: none; flex-direction: column;">
+    <div style="background: #2563eb; color: white; padding: 16px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between;">
+        <h3 style="margin: 0;">Study Doubt Helper</h3>
+        <div style="display: flex; gap: 8px;">
+            <button id="clearBtn" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">🗑️</button>
+            <button id="closeBtn" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">✕</button>
+        </div>
+    </div>
+    <div id="msgs" style="flex: 1; overflow-y: auto; padding: 12px; background: #f5f5f5;"></div>
+    <div style="padding: 12px; border-top: 1px solid #ddd;">
+        <div style="display: flex; gap: 8px;">
+            <input id="inp" type="text" placeholder="Ask a question..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px;"/>
+            <button id="voiceBtn" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 18px;">🎤</button>
+            <button id="sendBtn" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Send</button>
+        </div>
+    </div>
+</div>
+`;
+
+// Inject HTML
+document.body.insertAdjacentHTML('beforeend', chatbotHTML);
+
+// Get elements
+const chatBtn = document.getElementById('chatBtn');
+const chatBox = document.getElementById('chatBox');
+const closeBtn = document.getElementById('closeBtn');
+const clearBtn = document.getElementById('clearBtn');
+const sendBtn = document.getElementById('sendBtn');
+const voiceBtn = document.getElementById('voiceBtn');
+const inp = document.getElementById('inp');
+const msgs = document.getElementById('msgs');
+
+// Toggle chat
+chatBtn.addEventListener('click', function() {
+    chatOpen = !chatOpen;
+    chatBox.style.display = chatOpen ? 'flex' : 'none';
+    if (chatOpen) inp.focus();
+});
+
+// Close chat
+closeBtn.addEventListener('click', function() {
+    chatOpen = false;
+    chatBox.style.display = 'none';
+});
+
+// Clear chat
+clearBtn.addEventListener('click', function() {
+    conversationHistory = [];
+    msgs.innerHTML = '<div style="color: #1e40af; background: #dbeafe; padding: 8px; border-radius: 6px; font-size: 12px;">👋 Chat cleared!</div>';
+});
+
+// Voice input
+voiceBtn.addEventListener('click', function() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        alert('Voice input not supported. Use Chrome or Edge browser.');
+        return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    
+    // Show listening
+    voiceBtn.textContent = '🔴';
+    voiceBtn.style.background = '#ef4444';
+    
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        inp.value = transcript;
+        
+        // Reset button
+        voiceBtn.textContent = '🎤';
+        voiceBtn.style.background = '#10b981';
+        
+        // Auto-send
+        setTimeout(() => sendMessage(), 500);
+    };
+    
+    recognition.onerror = function() {
+        voiceBtn.textContent = '🎤';
+        voiceBtn.style.background = '#10b981';
+        alert('Voice recognition failed. Try again!');
+    };
+    
+    recognition.onend = function() {
+        voiceBtn.textContent = '🎤';
+        voiceBtn.style.background = '#10b981';
+    };
+    
+    recognition.start();
+});
+
+// Send message
+async function sendMessage() {
+    const msg = inp.value.trim();
+    if (!msg) return;
+    
+    // Add to history
+    conversationHistory.push({ role: 'user', content: msg });
+    
+    // Show user message
+    const userDiv = document.createElement('div');
+    userDiv.style.cssText = 'background: #2563eb; color: white; padding: 8px; border-radius: 6px; margin: 4px 0; text-align: right; font-size: 12px;';
+    userDiv.textContent = msg;
+    msgs.appendChild(userDiv);
+    inp.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+    
+    // Show loading
+    const loadDiv = document.createElement('div');
+    loadDiv.id = 'loadDiv';
+    loadDiv.style.cssText = 'background: #e5e7eb; padding: 8px; border-radius: 6px; font-size: 12px;';
+    loadDiv.textContent = '⏳ Thinking...';
+    msgs.appendChild(loadDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+    
+    try {
+        const res = await fetch('http://localhost:3000/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg, history: conversationHistory })
+        });
+        
+        const data = await res.json();
+        document.getElementById('loadDiv')?.remove();
+        
+        if (res.ok) {
+            conversationHistory.push({ role: 'assistant', content: data.reply });
+            const aiDiv = document.createElement('div');
+            aiDiv.style.cssText = 'background: #e5e7eb; color: #1f2937; padding: 8px; border-radius: 6px; margin: 4px 0; font-size: 12px;';
+            aiDiv.textContent = data.reply;
+            msgs.appendChild(aiDiv);
+        } else {
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'background: #fee2e2; color: #991b1b; padding: 8px; border-radius: 6px; font-size: 12px;';
+            errDiv.textContent = 'Error: ' + (data.error || 'Try again');
+            msgs.appendChild(errDiv);
+        }
+    } catch (e) {
+        document.getElementById('loadDiv')?.remove();
+        const errDiv = document.createElement('div');
+        errDiv.style.cssText = 'background: #fef3c7; color: #92400e; padding: 8px; border-radius: 6px; font-size: 12px;';
+        errDiv.textContent = '❌ Backend not running!';
+        msgs.appendChild(errDiv);
+    }
+    
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Send on Enter
+inp.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// Send on button click
+sendBtn.addEventListener('click', sendMessage);
+
+// Show initial message
+setTimeout(function() {
+    const initDiv = document.createElement('div');
+    initDiv.style.cssText = 'background: #dbeafe; color: #1e40af; padding: 8px; border-radius: 6px; font-size: 12px;';
+    initDiv.textContent = '👋 Hi! Ask me anything (type or use 🎤)';
+    msgs.appendChild(initDiv);
+}, 100);
+</script>
+
+
+
+</body>
+
+</html>
